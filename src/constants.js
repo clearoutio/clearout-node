@@ -1,0 +1,14 @@
+module.exports = {
+  EMAIL_VERIFY: {
+    DEFAULT_TIMEOUT: 130000,
+    DEFAULT_OPTIMIZE: 'highest_accuracy',
+    DEFAULT_IGNORE_RESULT: false,
+    DEFAULT_IGNORE_DUPLICATE_FILE: 'false',
+  },
+  EMAIL_FINDER: {
+    DEFAULT_TIMEOUT: 30000,
+    DEFAULT_QUEUE: true,
+    DEFAULT_IGNORE_RESULT: false,
+    DEFAULT_IGNORE_DUPLICATE_FILE: 'false',
+  },
+}

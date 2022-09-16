@@ -1,0 +1,57 @@
+{
+  "name": "@clearoutio/clearout",
+  "version": "1.1.4",
+  "author": "Clearout <us@clearout.io> (https://clearout.io)",
+  "deprecated": false,
+  "description": "Clearout NodeJS module for Clearout REST API ",
+  "license": "MIT",
+  "main": "src/index.js",
+  "scripts": {
+    "test": "jest --runInBand emailfinder emailverifier account"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/clearoutio/clearout-node.git"
+  },
+  "keywords": [
+    "email",
+    "email verification",
+    "email validation",
+    "email finder",
+    "email discovery",
+    "bulk finder",
+    "bulk verification",
+    "find email",
+    "email cleaning",
+    "verification",
+    "validation",
+    "cleaning",
+    "real time validation"
+  ],
+  "dependencies": {
+    "@types/node": ">=8.1.0",
+    "axios": "^0.27.2",
+    "form-data": "^4.0.0",
+    "lodash": "^4.17.21",
+    "openapi-client-axios": "^5.1.2"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.18.10",
+    "@babel/preset-env": "^7.18.10",
+    "babel-jest": "^28.1.3",
+    "jest": "^28.1.3",
+    "config": "^3.3.7",
+    "random-string": "^0.2.0"
+  },
+  "contributors": [
+    "Gnanaprakash Rathinam <gp@clearout.io> (https://clearout.io/)",
+    "Ashfaq Ahamed <ashfaq@clearout.io>"
+  ],
+  "bugs": {
+    "url": "https://github.com/clearoutio/clearout-node/issues"
+  },
+  "homepage": "https://github.com/clearoutio/clearout-node#readme",
+  "directories": {
+    "test": "test"
+  }
+}

@@ -1,0 +1,64 @@
+{
+  "env": {
+    "es6": true,
+    "node": true,
+    "mocha": true
+  },
+  "extends": "eslint:recommended",
+  "parserOptions": {
+    "ecmaVersion": 2018,
+    "sourceType": "module"
+  },
+  "rules": {
+    "max-len": [
+      "error",
+      130
+    ],
+    "space-before-blocks": [
+      "error"
+    ],
+    "space-infix-ops": [
+      "error",
+      {
+        "int32Hint": false
+      }
+    ],
+    "eol-last": [
+      "error",
+      "always"
+    ],
+    "no-trailing-spaces": [
+      "error",
+      {
+        "ignoreComments": true
+      }
+    ],
+    "indent": [
+      "error",
+      2,
+      {
+        "SwitchCase": 1
+      }
+    ],
+    "linebreak-style": [
+      "error",
+      "unix"
+    ],
+    "quotes": [
+      "error",
+      "single"
+    ],
+    "semi": [
+        "error",
+        "never"
+    ],
+    "keyword-spacing": [2, {"before": true, "after": true}],
+    "object-curly-spacing": ["error", "always"],
+    "comma-spacing": ["error"],
+    "key-spacing": ["error"],
+    "space-before-function-paren": ["error", {"anonymous": "always", "named": "never"}],
+    "no-useless-catch": ["off"],
+    "no-async-promise-executor": ["off"],
+    "require-atomic-updates": ["off"]
+  }
+}

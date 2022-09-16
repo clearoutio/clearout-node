@@ -1,0 +1,6 @@
+{
+  "api_token": "REPLACE_WITH_YOUR_SERVER_APP_API_TOKEN",
+  "config": {
+    "timeout": 6000
+  }
+}
