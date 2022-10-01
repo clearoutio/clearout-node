@@ -66,6 +66,16 @@ class EmailVerify {
     }
   }
 
+  // Cancel Bulk Verify List
+  async cancelBulkVerifyList(params) {
+    try {
+      const result = await this._client.getClient().then(client => client.cancelBulkVerifyList(null, { list_id: params.list_id }))
+      return helpers.handleResult(result)
+    } catch (error) {
+      throw helpers.handleError(error)
+    }
+  }
+
   // Catch-All Verify
   async verifyCatchAllEmails(params) {
     try {

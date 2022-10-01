@@ -39,6 +39,11 @@ EmailVerifier.prototype = {
     return await this._clearoutOpenApiClient.emailVerify.removeBulkEmailsResult({ list_id, ignore_result })
   },
 
+  // Bulk Verify Cancel
+  async cancelBulkVerifyList({ list_id }) {
+    return await this._clearoutOpenApiClient.emailVerify.cancelBulkVerifyList({ list_id })
+  },
+
   // Catch-All Verify
   async isCatchAllEmail({ email, timeout }) {
     if (_.isEmpty(timeout)) { timeout = this._defaultConfig.timeout }

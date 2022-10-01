@@ -11,7 +11,7 @@
       "skipFiles": [
         "<node_internals>/**"
       ],
-      "program": "${workspaceFolder}/co_app.js"
+      "program": "${workspaceFolder}/app.js"
     },
     {
       "type": "pwa-node",
@@ -20,7 +20,7 @@
       "skipFiles": [
         "<node_internals>/**"
       ],
-      "program": "${workspaceFolder}/co_app.mjs"
+      "program": "${workspaceFolder}/app.mjs"
     },
     {
       "type": "node",

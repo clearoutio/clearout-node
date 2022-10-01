@@ -93,6 +93,31 @@ describe('Clearout Email Verifier Tests', () => {
       })
   })
 
+  test('Bulk email verification - list cancel', () => {
+    const clearout = new Clearout(config.api_token, config.config);
+    return clearout.emailVerifier.bulkVerify({
+      file: DATA_FILEPATH + 'ev_yahoo_emails.csv',
+      optimize: 'highest_accuracy',
+      ignore_duplicate_file: 'true'
+    })
+      .then(data => {
+        expect(data).toHaveProperty('list_id')
+        let params = { list_id: data.list_id }
+        return params
+      })
+      .then(async (params) => {
+        await new Promise((resolve) => setTimeout(resolve, 10000));
+        return await clearout.emailVerifier.cancelBulkVerifyList(params)
+      })
+      .then(data => {
+        console.log(data);
+        return expect(data).toHaveProperty('name')
+      }).catch(error => {
+        console.log(error);
+        return expect(error.code).toBe(1116)
+      })
+  })
+
   test('Catch-All email verify', () => {
     //console.log(config.api_token)
     const clearout = new Clearout(config.api_token, config.config);

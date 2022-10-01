@@ -2,7 +2,7 @@ openapi: '3.0.2'
 
 info:
   title: Clearout OpenAPI
-  version: '1.0'
+  version: '1.1'
   contact:
     name: Clearout
     url: https://clearout.io/
@@ -10,7 +10,7 @@ info:
     
 servers:
   - url: https://api.clearout.io/v2
-  # - url: http://localhost:8084/api/v2
+ # - url: http://localhost:8084/api/v2
 
 components:
   securitySchemes:
@@ -434,7 +434,7 @@ components:
             message:
               type: string
               example: You have reached daily verify limit, please try next day or contact us@clearout.io
-    ResultDownloadListId:
+    ListIdType:
       type: object
       required: 
         - list_id
@@ -442,7 +442,7 @@ components:
         list_id:
           type: string
           example: Enter your list id here
-    RemoveDownloadListId:
+    RemoveParamType:
        type: object
        required: 
         - list_id
@@ -556,7 +556,7 @@ components:
             message:
               type: string
               example: Invalid API Token, please generate new token
-    BulkVerifyRemovalSuccessResponseType:
+    BulkSuccessResponseType:
       type: object
       properties:
         status:
@@ -574,7 +574,7 @@ components:
             created_on:
               type: string
               example: 2022-05-16 10:41:30.427Z
-    BulkVerifyRemovalFailureResponseType:
+    BulkFailureListNotAvailableResponseType:
       type: object
       properties:
         status:
@@ -589,7 +589,22 @@ components:
             message:
               type: string
               example: List is not available
-    BulkVerifyRemovalBadRequestResponseType:
+    BulkFailureListNotRunningResponseType:
+      type: object
+      properties:
+        status:
+          type: string
+          example: failed
+        error:
+          type: object
+          properties:
+            code:
+              type: integer
+              example: 1116
+            message:
+              type: string
+              example: List is not in the cancellable stage              
+    BulkBadRequestResponseType:
       type: object
       properties:
         status:
@@ -1766,70 +1781,6 @@ components:
             message:
               type: string
               example: Invalid API Token, please generate new token
-    BulkEmailFinderRemovalSuccessResponseType:
-      type: object
-      properties:
-        status:
-          type: string
-          example: success
-        data:
-          type: object
-          properties:
-            name:
-              type: string
-              example: mail_finder.xlsx
-            source:
-              type: string
-              example: upload
-            created_on:
-              type: string
-              example: 2022-05-16 10:41:30.427Z
-    BulkEmailFinderRemovalFailureResponseType:
-      type: object
-      properties:
-        status:
-          type: string
-          example: failed
-        error:
-          type: object
-          properties:
-            code:
-              type: integer
-              example: 1029
-            message:
-              type: string
-              example: List is not available
-    BulkEmailFinderRemovalBadRequestResponseType:
-      type: object
-      properties:
-        status:
-          type: string
-          example: failed
-        error:
-          type: object
-          properties:
-            message:
-              type: string
-              example: validation failed
-            reasons:
-              type: array
-              items:
-                properties:
-                  field:
-                    type: array
-                    items:
-                      example: list_id
-                  location:
-                    type: string
-                    example: body
-                  messages:
-                    type: array
-                    items:
-                      example: \"list_id\" is required
-                  types:
-                    type: array
-                    items:
-                      example: any.required
     BulkEmailFinderRemovalPaymentRequiredResponseType:
       type: object
       properties:
@@ -2075,7 +2026,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/ResultDownloadListId'
+              $ref: '#/components/schemas/ListIdType'
       responses:
         '200':
           description: OK
@@ -2119,7 +2070,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/RemoveDownloadListId'
+              $ref: '#/components/schemas/RemoveParamType'
       responses:
         '200':
           description: OK
@@ -2127,14 +2078,14 @@ paths:
             application/json:
               schema:
                 anyOf:
-                  - $ref: '#/components/schemas/BulkVerifyRemovalSuccessResponseType'
-                  - $ref: '#/components/schemas/BulkVerifyRemovalFailureResponseType'
+                  - $ref: '#/components/schemas/BulkSuccessResponseType'
+                  - $ref: '#/components/schemas/BulkFailureListNotAvailableResponseType'
         '400':
           description: Bad Request
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/BulkVerifyRemovalBadRequestResponseType'
+                $ref: '#/components/schemas/BulkBadRequestResponseType'
         '402':
           description: Payment Required
           content:
@@ -2147,6 +2098,38 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/BulkVerifyRemovalUnauthorizedResponseType'
+        '503':
+          description: Service Unavailable
+  /email_verify/list/cancel:
+    post:
+      tags: 
+        - Email Verify
+      summary: Bulk Verify Cancel
+      description: Cancel running bulk verify contact list
+      operationId: cancelBulkVerifyList
+      requestBody:
+        required: true
+        description: List ID to bulk verify cancel
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ListIdType'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                anyOf:
+                  - $ref: '#/components/schemas/BulkSuccessResponseType'
+                  - $ref: '#/components/schemas/BulkFailureListNotAvailableResponseType'
+                  - $ref: '#/components/schemas/BulkFailureListNotRunningResponseType'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BulkBadRequestResponseType'
         '503':
           description: Service Unavailable
   /email/verify/catchall:
@@ -2615,7 +2598,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/ResultDownloadListId'
+              $ref: '#/components/schemas/ListIdType'
       responses:
         '200':
           description: OK
@@ -2653,7 +2636,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/RemoveDownloadListId'
+              $ref: '#/components/schemas/RemoveParamType'
       responses:
         '200':
           description: OK
@@ -2661,14 +2644,14 @@ paths:
             application/json:
               schema:
                 anyOf:
-                  - $ref: '#/components/schemas/BulkEmailFinderRemovalSuccessResponseType'
-                  - $ref: '#/components/schemas/BulkEmailFinderRemovalFailureResponseType'
+                  - $ref: '#/components/schemas/BulkSuccessResponseType'
+                  - $ref: '#/components/schemas/BulkFailureListNotAvailableResponseType'
         '400':
           description: Bad Request
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/BulkEmailFinderRemovalBadRequestResponseType'
+                $ref: '#/components/schemas/BulkBadRequestResponseType'
         '402':
           description: Payment Required
           content:
@@ -2683,4 +2666,35 @@ paths:
                 $ref: '#/components/schemas/BulkEmailFinderRemovalUnauthorizedResponseType'
         '503':
           description: Service Unavailable
-
+  /email_finder/list/cancel:
+    post:
+      tags: 
+        - Email Finder
+      summary: Bulk Finder Cancel
+      description: Cancel running bulk finder list
+      operationId: cancelBulkFinderList
+      requestBody:
+        required: true
+        description: List ID to cancel bulk finding
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ListIdType'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                anyOf:
+                  - $ref: '#/components/schemas/BulkSuccessResponseType'
+                  - $ref: '#/components/schemas/BulkFailureListNotAvailableResponseType'
+                  - $ref: '#/components/schemas/BulkFailureListNotRunningResponseType'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BulkBadRequestResponseType'
+        '503':
+          description: Service Unavailable

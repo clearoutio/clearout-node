@@ -45,6 +45,11 @@ EmailFinder.prototype = {
     return await this._clearoutOpenApiClient.emailFinder.removeBulkEmailsList({ list_id, ignore_result })
   },
 
+  // Bulk Email Finder Cancel
+  async cancelBulkFinderList({ list_id }) {
+    return await this._clearoutOpenApiClient.emailFinder.cancelBulkFinderList({ list_id })
+  },
+
   /**
   * @private
   */

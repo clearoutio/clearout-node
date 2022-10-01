@@ -1,6 +1,12 @@
-# Clearout Node.js Library 
+# Clearout - An Official Email Verification and Email Finding Node.js Library
 
-The clearout node library provide convenient access to the Clearout REST API from applications written in server-side JavaScript to perform real-time, bulk email validation, email discovery. This programmatic interface will allow you to easily integrate into your use cases. Clearout infrastructure has been configured to retain **high throughput, security and high precision accuracy.** As long as credits are available in the account, you can perform clearout bulk verification or find support for any size list. 
+The Clearout node library is a wrapper of the [Clearout REST API](https://docs.clearout.io/api-overview.html) and allows developers to write applications in server-side JavaScript to perform real-time, bulk email verification and discovery. This programmatic interface will allow you to easily integrate into your use cases such as
+
+ - Avoid capturing bad email addresses in your forms, chats, or anywhere else where email is accepted.  
+ - Bulk email verification to remove invalid, dead and fake emails from your email lists
+ - Email finder to build pre-verified & accurate B2B leads for cold outreach
+
+Clearout infrastructure has been designed to retain **high throughput, security and precision accuracy.** Bulk email verification or email finder support lists of any size, as long as credits are available in account
 
 ## Documentation
 See the [`Clearout API docs`](https://docs.clearout.io/api-overview.html) to know RESTFul endpoints 
@@ -18,7 +24,7 @@ npm install @clearoutio/clearout --save
 ```
 
 ## Usage
-The package needs to be initialized with your Clearout's server app API token, which is available in the [`Clearout Apps Dashboard`](https://app.clearout.io/dashboard/apps). If you dont find server app, please create one and copy the API token 
+The package needs to be initialized with your Clearout's server app API token, which is available in the [`Clearout Apps Dashboard`](https://app.clearout.io/dashboard/apps). If you don't find server app, please create one and copy the API token 
 
 **Using as commonJS module with `Promise`:**
 <!-- prettier-ignore -->
@@ -68,12 +74,12 @@ const clearout = new Clearout("replace-with-your-api-token", {timeout: 5000, ign
 | ------------------- | ------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `token`        | `null`             | Clearout server app [API token](https://app.clearout.io/dashboard/apps)                                                                                                                                                             |
 | `timeout` | 130,000 ms (Email Verifier) <br/> 30,000 ms (Email Finder)                  | Maximum time each request can take in milliseconds                                                                                                                                                                             |
-| `ignore_result`         | `false`             | Ignore result file even if its not downladed. Used when invoking list removal      |
+| `ignore_result`         | `false`             | Ignore the result file, even if it's not downloaded. Used when invoking list removal      |
 | `ignore_duplicate_file`         | `'false'`             | Whether to allow duplicate file upload based on file name and size.    |
 
 
 ### Error Handling
-All service methods return promise and throw an exception in case if the response status is failed, So the recommend approach would be to call service method in `try...catch` block
+All service methods return promise and throw an exception in case if the response status is failed, hence  the recommended approach would be to call service method within a `try...catch` block
 
 ```js
 const clearout = require('@clearoutio/clearout')('replace-with-your-api-token', {timeout: 30000})
@@ -92,18 +98,18 @@ findEmail('elon musk', 'tesla.com')
 ```
 
 ### Email Verification Service 
-`clearout.emailVerifier` is ready to use object to host following methods that can be used to verify email address in real-time or  to verify millions of email addresses from bulk file 
+`clearout.emailVerifier` is a ready-to-use object that contains the methods for verifying email addresses in real-time and verifying millions of email addresses from a file 
 
 
 | Method | Parameters | Return |Description                                                                                                                                                                                                                                       |
 | ------- | --------- | ----------- | -- |
-| `verify({email[, timeout]})` | `email:String` - Email address to verify <br/><br/>  `timeout:Number` - Overriable optional param with default value 130000 ms              | Object with verified result  | Instant email verification method to return the current status of email address                                                                                         |
-| `bulkVerify({file[, optimize, ignore_duplicate_file]})` | `file:String` - Absolute filepath that contain email addresses to be upload<br/><br/>  `optimize:String` - Can either be 'highest_accuracy' or 'fastest_turnaround'. If not specified default would be 'highest_accuracy' <br/> <br/> `ignore_duplicate_file:String` - Whether to allow file with the same name and size that match with your recent upload. If not specified by default 'false' | Object with list_id | Verify bulk email addresses through file upload                                                                                                                                                       |
+| `verify({email[, timeout]})` | `email:String` - Email address to verify <br/><br/>  `timeout:Number` - Overridable optional param with default value 130000 ms              | Object with verified result  | Instant email verification method to return the current status of email address                                                                                         |
+| `bulkVerify({file[, optimize, ignore_duplicate_file]})` | `file:String` - Absolute file path containing email addresses to be uploaded<br/><br/>  `optimize:String` - Can either be 'highest_accuracy' or 'fastest_turnaround'. If not specified, the default would be 'highest_accuracy' <br/> <br/> `ignore_duplicate_file:String` - Whether to allow files with the same name and size that match with your recent upload. If not specified by default 'false' | Object with list_id | Verify bulk email addresses through file upload                                                                                                                                                       |
 | `getBulkVerifyProgressStatus({list_id})`         | `list_id:String ` - List id to know the current progress status            | Object with list progress status  | To know the current progress status of bulk verify request                                                                                                                   
-| `downloadBulkVerifyResult({list_id})`         | `list_id:String` - List id to download the result    | Object with downloaded URL of verified result | Download verified result of the list                                                                                                                   |
-| `removeBulkVerifyList({list_id[, ignore_result]})`         | `list_id:String` - List id to remove <br/> <br/> `ignore_result:Boolean` - Overridable optional param with default true            | Object with removed list details | Remove bulk verified list                                                                                                                   |
+| `downloadBulkVerifyResult({list_id})`         | `list_id:String` - List id to download the result    | Object with downloaded URL of verified result | Download verified result of the email list                                                                                                                   |
+| `removeBulkVerifyList({list_id[, ignore_result]})`         | `list_id:String` - List id to remove <br/> <br/> `ignore_result:Boolean` - Overridable optional param with default true            | Object with removed list details | Remove bulk verified email list                                                                                                                   |
 | `isCatchAllEmail({email[,timeout]})`         | `email:String` - Email address to verify <br/><br/>  `timeout:Number` - Overridable optional param with default 90,000 ms             | Object with email address catch all status | To know email address is accept all email type of not                                                                                                           |
-| `isDisposableEmail({email[, timeout]})`         | `email:String` - Email address to verify, <br/><br/>  `timeout:Number` - Overridable optional param with default 90,000 ms       | Object with email address disposable status | To know email address is diposable or temporary                                                                              |
+| `isDisposableEmail({email[, timeout]})`         | `email:String` - Email address to verify, <br/><br/>  `timeout:Number` - Overridable optional param with default 90,000 ms       | Object with email address disposable status | To know email address is disposable or temporary                                                                              |
 | `isBusinessEmail({email[, timeout]})`         | `email:String` - Email address to verify <br/><br/>  `timeout:Number` - Overridable optional param with default 90,000 ms           | Object with email address business status  | To know email address belong to work or business                                                                                                          |
 | `isFreeEmail({email[, timeout]})`         | `email:String` - Email address to verify, <br/> <br/> `timeout:Number` - Overridable optional param with default 90,000 ms        | Object with email address free account status  | To know email address belong to free email service providers                                                                                                                  |
 | `isRoleEmail({email[, timeout]})`         | `email:String` - Email address to verify, <br/><br/>  `timeout:Number` - Overridable optional param with default 90,000 ms        | Object with email address role account status  | To know email address belong to group or role based account                                                                                                        |
@@ -111,14 +117,14 @@ findEmail('elon musk', 'tesla.com')
 
 
 ### Email Finder Service 
-`clearout.emailFinder` is ready to use object to host following methods that can be used to find an email address in real-time or to find email addresses of prospects from bulk file 
+`clearout.emailFinder` is ready to use object that has the following methods for finding an email address in real-time or to find email addresses of prospects from bulk file 
 
 
 | Method               | Parameters       | Return     | Description                                                                                                                                                                                                                                       |
 | ------------------- | ------------------ | ------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `find({name,domain[, timeout,queue]})`        | `name:String` - Person name<br/> `domain:String` - Person company name / domain<br/> <br/>  `timeout:Number` - Overridable optional param with default 30,000 ms<br/> <br/> `queue:Boolean` - Flag to indicate whether email discovery can be performed in background even after the request timed out  | Object with found email address or request queue id if request not fullfilled with in timeout | Instantly discover email address of any person giving their name and domain or company name                                                                                                                                                                                     |
+| `find({name,domain[, timeout,queue]})`        | `name:String` - Person name<br/> `domain:String` - Person company name / domain<br/> <br/>  `timeout:Number` - Overridable optional param with default 30,000 ms<br/> <br/> `queue:Boolean` - Flag to indicate whether email discovery can be performed in background even after the request timed out  | Object with found email address or request queue id if request not fulfilled with in timeout | Instantly discover email address of any person giving their name and domain or company name                                                                                                                                                                                     |
 | `getStatus({qid})`        | `qid:String` -  Queue ID received as part of the instant email finder response object      | Object with found email address or progress status  | To know the email finder request status in queue                                                                                                                                                                                     |
-| `bulkFind({file,[, ignore_duplicate_file]})` | `file:FileObject` - Absolute filepath that contain person name and company name / domain to be upload  <br/><br/>  `ignore_duplicate_file:String` - Whether to allow file with the same name and size that match with your recent upload. If not specified by default 'false' | Object with file list id  | File bulk email addresses through file upload                                                                                                                                                                                              |
+| `bulkFind({file,[, ignore_duplicate_file]})` | `file:FileObject` - Absolute file path that contains person name and company name / domain to be uploaded  <br/><br/>  `ignore_duplicate_file:String` - Whether to allow files with the same name and size that match with your recent upload. If not specified by default 'false' | Object with file list id  | File bulk email addresses through file upload                                                                                                                                                                                              |
 | `getBulkFindProgressStatus({list_id})`         | `list_id:String` - List id for which to know the current progress status                      | Object with bulk find email status | To know the current progress status of bulk email find request                                                                                                                     |
 | `downloadBulkFindResult({list_id})`         | `list_id:String` - List id for result download         |   Object with downloaded URL of email finder result | Download email finder result of the list                                                                                                                   |
 | `removeBulkFindList({list_id[, ignore_result]})`         | `list_id:String` - List id to remove <br/><br/>  `ignore_result:Boolean` - Overridable optional param with default true | Object with removed list details  | Remove bulk email finder list     |
@@ -172,7 +178,7 @@ More Information:
 
 ## Contributing
 
-Contributions welcome! Please reach out to `us@clearout.io`
+Contributions are welcome! Please reach out to `us@clearout.io`
 
 ## MIT License
 

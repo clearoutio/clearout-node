@@ -17,6 +17,8 @@
     "email",
     "email verification",
     "email validation",
+    "email verifier",
+    "email validator",
     "email finder",
     "email discovery",
     "bulk finder",
@@ -26,6 +28,7 @@
     "verification",
     "validation",
     "cleaning",
+    "real time",
     "real time validation"
   ],
   "dependencies": {

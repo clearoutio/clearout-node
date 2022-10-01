@@ -74,6 +74,16 @@ class EmailFinder {
       throw helpers.handleError(error)
     }
   }
+
+  // Cancel Bulk Finder List
+  async cancelBulkFinderList(params) {
+    try {
+      const result = await this._client.getClient().then(client => client.cancelBulkFinderList(null, { list_id: params.list_id }))
+      return helpers.handleResult(result)
+    } catch (error) {
+      throw helpers.handleError(error)
+    }
+  }
 }
 
 module.exports = EmailFinder

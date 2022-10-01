@@ -12,6 +12,8 @@ class OpenApiClient {
       axiosConfigDefaults: {
         headers: {
           'Authorization': api_token,
+          'Cache-Control': 'no-cache',
+          'content-type': 'application/json;charset=UTF-8',
         }
       }
     })
