@@ -24,7 +24,9 @@ describe('Clearout Email Verifier Tests', () => {
       optimize: 'highest_accuracy',
       ignore_duplicate_file: 'true'
     })
-      .then(data => expect(data).toHaveProperty('list_id'))
+      .then(data => {
+        expect(data).toHaveProperty('list_id')
+      })
   })
 
   test('Bulk email verification - progress status of uploaded file', () => {
@@ -95,8 +97,9 @@ describe('Clearout Email Verifier Tests', () => {
 
   test('Bulk email verification - list cancel', () => {
     const clearout = new Clearout(config.api_token, config.config);
+    var file_name = 'ev_yahoo_emails.csv'
     return clearout.emailVerifier.bulkVerify({
-      file: DATA_FILEPATH + 'ev_yahoo_emails.csv',
+      file: DATA_FILEPATH + file_name,
       optimize: 'highest_accuracy',
       ignore_duplicate_file: 'true'
     })
@@ -106,14 +109,13 @@ describe('Clearout Email Verifier Tests', () => {
         return params
       })
       .then(async (params) => {
-        await new Promise((resolve) => setTimeout(resolve, 10000));
+        await new Promise((resolve) => setTimeout(resolve, 5000));
         return await clearout.emailVerifier.cancelBulkVerifyList(params)
       })
       .then(data => {
-        console.log(data);
-        return expect(data).toHaveProperty('name')
+        expect(data).toHaveProperty('list_id')
+        return expect(data.name).toBe(file_name)
       }).catch(error => {
-        console.log(error);
         return expect(error.code).toBe(1116)
       })
   })

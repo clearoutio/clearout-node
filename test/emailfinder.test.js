@@ -60,7 +60,6 @@ describe('Clearout Email Finder Tests', () => {
       ignore_duplicate_file: 'true'
     })
       .then(data => {
-        // console.log(data)
         expect(data).toHaveProperty('list_id')
       })
   })
@@ -81,7 +80,6 @@ describe('Clearout Email Finder Tests', () => {
         return await clearout.emailFinder.getBulkFindProgressStatus(params)
       })
       .then(data => {
-        // console.log(data);
         return expect(data).toHaveProperty('progress_status')
       })
   })
@@ -102,8 +100,31 @@ describe('Clearout Email Finder Tests', () => {
         return await clearout.emailFinder.downloadBulkFindResult(params)
       })
       .then(data => {
-        // console.log(data);
         return expect(data).toHaveProperty('url')
+      })
+  })
+
+  test('Bulk email Finder validation - list cancel', () => {
+    const clearout = new Clearout(config.api_token, config.config);
+    var file_name = 'ef_single_person.csv'
+    return clearout.emailFinder.bulkFind({
+      file: DATA_FILEPATH + file_name,
+      ignore_duplicate_file: 'true'
+    })
+      .then(data => {
+        expect(data).toHaveProperty('list_id')
+        let params = { list_id: data.list_id }
+        return params
+      })
+      .then(async (params) => {
+        await new Promise((resolve) => setTimeout(resolve, 5000));
+        return await clearout.emailFinder.cancelBulkFinderList(params)
+      })
+      .then(data => {
+        expect(data).toHaveProperty('list_id')
+        return expect(data.name).toBe(file_name)
+      }).catch(error => {
+        return expect(error.code).toBe(1116)
       })
   })
 
