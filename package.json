@@ -1,6 +1,6 @@
 {
   "name": "@clearoutio/clearout",
-  "version": "1.1.6",
+  "version": "1.1.7",
   "author": "Clearout <us@clearout.io> (https://clearout.io)",
   "deprecated": false,
   "description": "Clearout NodeJS module for Clearout REST API ",

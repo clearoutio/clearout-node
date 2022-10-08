@@ -3,6 +3,7 @@ const OpenAPIClientAxios = require('openapi-client-axios').default
 const EmailVerify = require('./email-verify')
 const EmailFinder = require('./email-finder')
 const helpers = require('./helpers')
+const Package = require('./../../package.json')
 
 class OpenApiClient {
   constructor({ api_token }) {
@@ -14,6 +15,7 @@ class OpenApiClient {
           'Authorization': api_token,
           'Cache-Control': 'no-cache',
           'content-type': 'application/json;charset=UTF-8',
+          'User-Agent': `${Package.name}V${Package.version}`
         }
       }
     })
